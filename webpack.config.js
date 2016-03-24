@@ -26,6 +26,7 @@ module.exports = {
         contentBase: './dist',
         hot: true
     },
+    devtool: "#inline-source-map",
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
