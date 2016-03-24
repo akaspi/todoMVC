@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import Header from './Header.jsx';
 import TodoList from './TodoList.jsx';
-import TodoFooter from './TodoFooter.jsx';
+import Footer from './Footer.jsx';
 
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../common/constants';
 
@@ -91,7 +91,7 @@ export default React.createClass({
 
         if (activeTodoCount || completedCount) {
             footer =
-                <TodoFooter
+                <Footer
                     count={activeTodoCount}
                     completedCount={completedCount}
                     nowShowing={this.state.nowShowing}
