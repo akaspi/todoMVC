@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 import { ESCAPE_KEY, ENTER_KEY } from '../common/constants';
@@ -61,7 +62,7 @@ export default React.createClass({
      */
     componentDidUpdate(prevProps) {
         if (!prevProps.editing && this.props.editing) {
-            var node = React.findDOMNode(this.refs.editField);
+            var node = ReactDOM.findDOMNode(this.refs.editField);
             node.focus();
             node.setSelectionRange(node.value.length, node.value.length);
         }

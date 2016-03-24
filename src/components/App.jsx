@@ -3,6 +3,7 @@
 import React from 'react';
 import _ from 'lodash';
 
+import Header from './Header.jsx';
 import TodoList from './TodoList.jsx';
 import TodoFooter from './TodoFooter.jsx';
 
@@ -14,9 +15,7 @@ export default React.createClass({
     getInitialState() {
         return {
             todos: [],
-            nowShowing: ALL_TODOS,
-            editing: null,
-            newTodo: ''
+            nowShowing: ALL_TODOS
         };
     },
     componentDidMount() {
@@ -28,31 +27,18 @@ export default React.createClass({
         });
         router.init('/');
     },
-    handleChange(event) {
-        this.setState({newTodo: event.target.value});
-    },
-    handleNewTodoKeyDown(event) {
-        if (event.keyCode !== ENTER_KEY) {
-            return;
-        }
 
-        event.preventDefault();
+    addItem(itemTitle) {
+        var newTodos = _.clone(this.state.todos);
+        newTodos.push({
+            title: itemTitle,
+            completed: false,
+            id: _.uniqueId('item')
+        });
 
-        var val = this.state.newTodo.trim();
-
-        if (val) {
-            var newTodos = _.clone(this.state.todos);
-            newTodos.push({
-                title: val,
-                completed: false,
-                id: _.uniqueId('item')
-            });
-
-            this.setState({
-                newTodo: '',
-                todos: newTodos
-            });
-        }
+        this.setState({
+            todos: newTodos
+        });
     },
 
     toggleAll(event) {
@@ -81,20 +67,12 @@ export default React.createClass({
         this.setState({ todos: newTodos });
     },
 
-    edit(todo) {
-        this.setState({editing: todo.id});
-    },
-
     save(todoToSave, text) {
         var newTodos = this.state.todos.map(function (todo) {
             return todo !== todoToSave ? todo : _.assign({}, todo, {title: text});
         });
 
-        this.setState({editing: null, todos: newTodos});
-    },
-
-    cancel() {
-        this.setState({editing: null});
+        this.setState({todos: newTodos});
     },
 
     clearCompleted() {
@@ -146,7 +124,6 @@ export default React.createClass({
                               onToggle={this.toggle}
                               onDestroy={this.destroy}
                               onEdit={this.edit}
-                              editingId={this.state.editing}
                               onSave={this.save}
                               onCancel={this.cancel}
                     />
@@ -156,17 +133,7 @@ export default React.createClass({
 
         return (
             <div>
-                <header className="header">
-                    <h1>todos</h1>
-                    <input
-                        className="new-todo"
-                        placeholder="What needs to be done?"
-                        value={this.state.newTodo}
-                        onKeyDown={this.handleNewTodoKeyDown}
-                        onChange={this.handleChange}
-                        autoFocus={true}
-                    />
-                </header>
+                <Header onAdd={this.addItem} />
                 {main}
                 {footer}
             </div>
