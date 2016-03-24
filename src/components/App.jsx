@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import _ from 'lodash';
 
 import TodoFooter from './TodoFooter.jsx';
 import TodoItem from './TodoItem.jsx';
@@ -12,6 +13,7 @@ import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS, ENTER_KEY } from '../common/c
 export default React.createClass({
     getInitialState() {
         return {
+            todos: [],
             nowShowing: ALL_TODOS,
             editing: null,
             newTodo: ''
@@ -39,22 +41,44 @@ export default React.createClass({
         var val = this.state.newTodo.trim();
 
         if (val) {
-            this.props.model.addTodo(val);
-            this.setState({newTodo: ''});
+            var newTodos = _.clone(this.state.todos);
+            newTodos.push({
+                title: val,
+                completed: false,
+                id: _.uniqueId('item')
+            });
+
+            this.setState({
+                newTodo: '',
+                todos: newTodos
+            });
         }
     },
 
     toggleAll(event) {
         var checked = event.target.checked;
-        this.props.model.toggleAll(checked);
+        var newTodos = this.state.todos.map(function (todo) {
+            return _.assign({}, todo, {completed: checked});
+        });
+
+        this.setState({ todos: newTodos });
     },
 
     toggle(todoToToggle) {
-        this.props.model.toggle(todoToToggle);
+        var newTodos = this.state.todos.map(function (todo) {
+            return todo !== todoToToggle ?
+                todo :
+                _.assign({}, todo, {completed: !todo.completed});
+        });
+
+        this.setState({ todos: newTodos });
+
     },
 
     destroy(todo) {
-        this.props.model.destroy(todo);
+        var newTodos = _.reject(this.state.todos, todo);
+
+        this.setState({ todos: newTodos });
     },
 
     edit(todo) {
@@ -62,8 +86,11 @@ export default React.createClass({
     },
 
     save(todoToSave, text) {
-        this.props.model.save(todoToSave, text);
-        this.setState({editing: null});
+        var newTodos = this.state.todos.map(function (todo) {
+            return todo !== todoToSave ? todo : _.assign({}, todo, {title: text});
+        });
+
+        this.setState({editing: null, todos: newTodos});
     },
 
     cancel() {
@@ -71,12 +98,14 @@ export default React.createClass({
     },
 
     clearCompleted() {
-        this.props.model.clearCompleted();
+        var newTodos = _.reject(this.state.todos, 'completed');
+
+        this.setState({ todos: newTodos });
     },
     render() {
         var footer;
         var main;
-        var todos = this.props.model.todos;
+        var todos = this.state.todos;
 
         var shownTodos = todos.filter(function (todo) {
             switch (this.state.nowShowing) {
