@@ -1,8 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { pluralize } from '../common/utils';
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../common/constants';
+
+const pluralize = (count, word) => {
+    return count === 1 ? word : word + 's';
+};
 
 export default React.createClass({
     displayName: 'TodoFooter',
