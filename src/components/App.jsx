@@ -7,9 +7,7 @@ import Header from './Header.jsx';
 import TodoList from './TodoList.jsx';
 import TodoFooter from './TodoFooter.jsx';
 
-import { Router } from 'director';
-
-import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS, ENTER_KEY } from '../common/constants';
+import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../common/constants';
 
 export default React.createClass({
     getInitialState() {
@@ -17,15 +15,6 @@ export default React.createClass({
             todos: [],
             nowShowing: ALL_TODOS
         };
-    },
-    componentDidMount() {
-        var setState = this.setState;
-        var router = Router({
-            '/': setState.bind(this, {nowShowing: ALL_TODOS}),
-            '/active': setState.bind(this, {nowShowing: ACTIVE_TODOS}),
-            '/completed': setState.bind(this, {nowShowing: COMPLETED_TODOS})
-        });
-        router.init('/');
     },
 
     addItem(itemTitle) {
@@ -106,6 +95,7 @@ export default React.createClass({
                     count={activeTodoCount}
                     completedCount={completedCount}
                     nowShowing={this.state.nowShowing}
+                    setNowShowing={(nowShowing) => this.setState({ nowShowing: nowShowing})}
                     onClearCompleted={this.clearCompleted}
                 />;
         }

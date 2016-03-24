@@ -6,6 +6,13 @@ import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../common/constants';
 
 export default React.createClass({
     displayName: 'TodoFooter',
+    propTypes: {
+        nowShowing: React.PropTypes.string.isRequired,
+        setNowShowing: React.PropTypes.func.isRequired,
+        count: React.PropTypes.number,
+        completedCount: React.PropTypes.number,
+        onClearCompleted: React.PropTypes.func
+    },
     render() {
         var activeTodoWord = pluralize(this.props.count, 'item');
         var clearButton = null;
@@ -29,7 +36,7 @@ export default React.createClass({
                 <ul className="filters">
                     <li>
                         <a
-                            href="#/"
+                            onClick={() => this.props.setNowShowing(ALL_TODOS)}
                             className={classNames({selected: nowShowing === ALL_TODOS})}>
                             All
                         </a>
@@ -37,7 +44,7 @@ export default React.createClass({
                     {' '}
                     <li>
                         <a
-                            href="#/active"
+                            onClick={() => this.props.setNowShowing(ACTIVE_TODOS)}
                             className={classNames({selected: nowShowing === ACTIVE_TODOS})}>
                             Active
                         </a>
@@ -45,7 +52,7 @@ export default React.createClass({
                     {' '}
                     <li>
                         <a
-                            href="#/completed"
+                            onClick={() => this.props.setNowShowing(COMPLETED_TODOS)}
                             className={classNames({selected: nowShowing === COMPLETED_TODOS})}>
                             Completed
                         </a>
