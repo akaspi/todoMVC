@@ -3,8 +3,8 @@
 import React from 'react';
 import _ from 'lodash';
 
+import TodoList from './TodoList.jsx';
 import TodoFooter from './TodoFooter.jsx';
-import TodoItem from './TodoItem.jsx';
 
 import { Router } from 'director';
 
@@ -105,9 +105,7 @@ export default React.createClass({
     render() {
         var footer;
         var main;
-        var todos = this.state.todos;
-
-        var shownTodos = todos.filter(function (todo) {
+        var todos = this.state.todos.filter(function (todo) {
             switch (this.state.nowShowing) {
                 case ACTIVE_TODOS:
                     return !todo.completed;
@@ -116,21 +114,6 @@ export default React.createClass({
                 default:
                     return true;
             }
-        }, this);
-
-        var todoItems = shownTodos.map(function (todo) {
-            return (
-                <TodoItem
-                    key={todo.id}
-                    todo={todo}
-                    onToggle={this.toggle.bind(this, todo)}
-                    onDestroy={this.destroy.bind(this, todo)}
-                    onEdit={this.edit.bind(this, todo)}
-                    editing={this.state.editing === todo.id}
-                    onSave={this.save.bind(this, todo)}
-                    onCancel={this.cancel}
-                />
-            );
         }, this);
 
         var activeTodoCount = todos.reduce(function (accum, todo) {
@@ -158,9 +141,15 @@ export default React.createClass({
                         onChange={this.toggleAll}
                         checked={activeTodoCount === 0}
                     />
-                    <ul className="todo-list">
-                        {todoItems}
-                    </ul>
+                    
+                    <TodoList todos={todos}
+                              onToggle={this.toggle}
+                              onDestroy={this.destroy}
+                              onEdit={this.edit}
+                              editingId={this.state.editing}
+                              onSave={this.save}
+                              onCancel={this.cancel}
+                    />
                 </section>
             );
         }
