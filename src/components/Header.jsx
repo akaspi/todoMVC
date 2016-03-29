@@ -1,12 +1,22 @@
 'use strict';
 
 import React from 'react';
+
+import { connect } from 'react-redux';
+import { addTodo } from '../common/actionCreators';
+
 import { ENTER_KEY } from '../common/constants';
 
-export default React.createClass({
+function mapDispatchToProps(dispatch) {
+    return {
+        addTodo: (title) => dispatch(addTodo(title))
+    };
+}
+
+export default connect(null, mapDispatchToProps)(React.createClass({
     displayName: 'Header',
     propTypes: {
-        onAdd: React.PropTypes.func.isRequired  
+        addTodo: React.PropTypes.func.isRequired
     },
     getInitialState() {
         return {
@@ -26,7 +36,7 @@ export default React.createClass({
         var val = this.state.newTodo.trim();
 
         if (val) {
-            this.props.onAdd(val);
+            this.props.addTodo(val);
             this.setState({
                 newTodo: ''
             });
@@ -47,4 +57,4 @@ export default React.createClass({
             </header>
         );
     }
-});
+}));
