@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "webpack-dev-server -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -45,6 +46,7 @@
     "lodash": "^3.10.1",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
-    "react-redux": "^4.1.2"
+    "react-redux": "^4.4.1",
+    "redux": "^3.3.1"
   }
 }
