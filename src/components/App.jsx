@@ -7,6 +7,8 @@ import TodoList from './TodoList.jsx';
 import Footer from './Footer.jsx';
 
 export default React.createClass({
+    displayName: 'App',
+    
     render() {
         return (
             <div>

@@ -15,17 +15,21 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(null, mapDispatchToProps)(React.createClass({
     displayName: 'Header',
+    
     propTypes: {
         addTodo: React.PropTypes.func.isRequired
     },
+    
     getInitialState() {
         return {
             newTodo: ''
         };
     },
+    
     handleChange(event) {
         this.setState({newTodo: event.target.value});
     },
+    
     handleNewTodoKeyDown(event) {
         if (event.keyCode !== ENTER_KEY) {
             return;
@@ -42,6 +46,7 @@ export default connect(null, mapDispatchToProps)(React.createClass({
             });
         }
     },
+    
     render() {
         return (
             <header className="header">

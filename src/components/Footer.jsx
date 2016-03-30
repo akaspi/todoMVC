@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { clearCompleted, setFilter } from '../common/actionCreators';
 import { getFilteredTodos } from '../common/utils';
-
 
 import classNames from 'classnames';
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../common/constants';
@@ -27,12 +27,14 @@ const pluralize = (count, word) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(React.createClass({
-    displayName: 'TodoFooter',
+    displayName: 'Footer',
+    
     propTypes: {
         filter: React.PropTypes.string.isRequired,
         setFilter: React.PropTypes.func.isRequired,
         clearCompleted: React.PropTypes.func
     },
+    
     render() {
         var count = getFilteredTodos(this.props.todos, this.props.filter).length;
         var activeTodoWord = pluralize(count, 'item');

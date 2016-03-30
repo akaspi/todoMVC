@@ -23,6 +23,7 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(React.createClass({
     displayName: 'TodoList',
+    
     propTypes: {
         todos: React.PropTypes.array.isRequired,
         toggleTodo: React.PropTypes.func.isRequired,
@@ -30,21 +31,26 @@ export default connect(mapStateToProps, mapDispatchToProps)(React.createClass({
         editTodo: React.PropTypes.func.isRequired,
         filter: React.PropTypes.string.isRequired
     },
+    
     getInitialState() {
         return {
             editing: null
         };
     },
+    
     edit(todo) {
         this.setState({editing: todo.id});
     },
+    
     save(todo, title) {
         this.props.editTodo(todo, title);
         this.setState({editing: null});
     },
+    
     cancel() {
         this.setState({editing: null});
     },
+    
     render() {
 
         var todoItems = getFilteredTodos(this.props.todos, this.props.filter).map(function (todo) {
