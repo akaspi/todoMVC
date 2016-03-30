@@ -3,24 +3,29 @@ import TodoItem from './TodoItem.jsx';
 
 export default React.createClass({
     displayName: 'TodoList',
+
     propTypes: {
         todos: React.PropTypes.array.isRequired,
         onToggle: React.PropTypes.func.isRequired,
         onDestroy: React.PropTypes.func.isRequired,
         onSave: React.PropTypes.func.isRequired
     },
+
     getInitialState() {
         return {
             editing: null
         };
     },
+
     edit(todo) {
         this.setState({editing: todo.id});
     },
+
     save(todo, text) {
         this.props.onSave(todo, text);
         this.setState({editing: null});
     },
+    
     cancel() {
         this.setState({editing: null});
     },

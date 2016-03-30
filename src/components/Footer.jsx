@@ -8,7 +8,8 @@ const pluralize = (count, word) => {
 };
 
 export default React.createClass({
-    displayName: 'TodoFooter',
+    displayName: 'Footer',
+    
     propTypes: {
         nowShowing: React.PropTypes.string.isRequired,
         setNowShowing: React.PropTypes.func.isRequired,
@@ -16,6 +17,7 @@ export default React.createClass({
         completedCount: React.PropTypes.number,
         onClearCompleted: React.PropTypes.func
     },
+    
     render() {
         var activeTodoWord = pluralize(this.props.count, 'item');
         var clearButton = null;

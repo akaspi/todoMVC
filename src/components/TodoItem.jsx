@@ -6,6 +6,7 @@ import { ESCAPE_KEY, ENTER_KEY } from '../common/constants';
 
 export default React.createClass({
     displayName: 'TodoItem',
+    
     handleSubmit(event) {
         var val = this.state.editText.trim();
         if (val) {
@@ -15,6 +16,7 @@ export default React.createClass({
             this.props.onDestroy();
         }
     },
+    
     handleEdit() {
         this.props.onEdit();
         this.setState({editText: this.props.todo.title});
@@ -67,6 +69,7 @@ export default React.createClass({
             node.setSelectionRange(node.value.length, node.value.length);
         }
     },
+    
     render() {
         return (
             <li className={classNames({

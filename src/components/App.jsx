@@ -1,7 +1,7 @@
 'use strict';
 
-import React from 'react';
 import _ from 'lodash';
+import React from 'react';
 
 import Header from './Header.jsx';
 import TodoList from './TodoList.jsx';
@@ -10,6 +10,8 @@ import Footer from './Footer.jsx';
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../common/constants';
 
 export default React.createClass({
+    displayName: 'App',
+    
     getInitialState() {
         return {
             todos: [],
@@ -69,6 +71,7 @@ export default React.createClass({
 
         this.setState({ todos: newTodos });
     },
+    
     render() {
         var footer;
         var main;

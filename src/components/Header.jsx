@@ -5,17 +5,21 @@ import { ENTER_KEY } from '../common/constants';
 
 export default React.createClass({
     displayName: 'Header',
+    
     propTypes: {
         onAdd: React.PropTypes.func.isRequired  
     },
+    
     getInitialState() {
         return {
             newTodo: ''
         };
     },
+    
     handleChange(event) {
         this.setState({newTodo: event.target.value});
     },
+    
     handleNewTodoKeyDown(event) {
         if (event.keyCode !== ENTER_KEY) {
             return;
@@ -32,6 +36,7 @@ export default React.createClass({
             });
         }
     },
+    
     render() {
         return (
             <header className="header">
