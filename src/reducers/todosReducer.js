@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { ADD_TODO, EDIT_TODO, REMOVE_TODO, TOGGLE_TODO, TOGGLE_ALL_TODOS, CLEAR_COMPLETED } from '../common/actionTypes';
+import { ADD_TODO, EDIT_TODO, REMOVE_TODO, TOGGLE_TODO, CLEAR_COMPLETED } from '../common/actionTypes';
 
 const initialState = [];
 
@@ -24,9 +24,6 @@ export default function todosReducer(state = initialState, action = {}) {
         case TOGGLE_TODO:
             var todoIndex = _.findIndex(state, action.todo);
             return [...state.slice(0, todoIndex), toggleComplete(action.todo), ...state.slice(todoIndex + 1)];
-
-        case TOGGLE_ALL_TODOS:
-            return _.map(state, toggleComplete);
 
         case CLEAR_COMPLETED:
             return _.reject(state, 'completed');

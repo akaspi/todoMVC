@@ -46,17 +46,6 @@ describe('Todos Reducer Spec', () => {
         expect(nextState[1].completed).toEqual(false);
     });
 
-    it('should toggle all todos', () => {
-        const firstTodo = { title: 'titleA', completed: false, id:'item_1' };
-        const secondTodo = { title: 'titleB', completed: false, id:'item_2' };
-
-        const currentState = [ firstTodo, secondTodo ];
-
-        const nextState = todosReducer(currentState, toggleAllTodos());
-
-        expect(_.every(nextState, 'completed')).toEqual(true);
-    });
-
     it('should clear completed todos', () => {
         const firstTodo = { title: 'titleA', completed: true, id:'item_1' };
         const secondTodo = { title: 'titleB', completed: false, id:'item_2' };

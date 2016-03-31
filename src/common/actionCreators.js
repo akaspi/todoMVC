@@ -31,12 +31,6 @@ export const toggleTodo = (todo) => {
     };
 };
 
-export const toggleAllTodos = () => {
-    return {
-        type: actionTypes.TOGGLE_ALL_TODOS
-    };
-};
-
 export const clearCompleted = () => {
     return {
         type: actionTypes.CLEAR_COMPLETED

@@ -3,14 +3,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { clearCompleted, setFilter } from '../common/actionCreators';
-import { getFilteredTodos } from '../common/utils';
 
 import classNames from 'classnames';
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../common/constants';
 
 function mapStateToProps(state) {
     return {
-        todos: state.todos,
+        showClearCompleted: _.any(state.todos, 'completed'),
         filter: state.filter
     };
 }
@@ -22,25 +21,20 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-const pluralize = (count, word) => {
-    return count === 1 ? word : word + 's';
-};
-
 export default connect(mapStateToProps, mapDispatchToProps)(React.createClass({
     displayName: 'Footer',
     
     propTypes: {
         filter: React.PropTypes.string.isRequired,
         setFilter: React.PropTypes.func.isRequired,
+        showClearCompleted: React.PropTypes.bool,
         clearCompleted: React.PropTypes.func
     },
     
     render() {
-        var count = getFilteredTodos(this.props.todos, this.props.filter).length;
-        var activeTodoWord = pluralize(count, 'item');
         var clearButton = null;
 
-        if (_.any(this.props.todos, 'completed')) {
+        if (this.props.showClearCompleted) {
             clearButton = (
                 <button
                     className="clear-completed"
@@ -52,9 +46,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(React.createClass({
 
         return (
             <footer className="footer">
-					<span className="todo-count">
-						<strong>{count}</strong> {activeTodoWord} left
-					</span>
                 <ul className="filters">
                     <li>
                         <a
