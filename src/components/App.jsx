@@ -7,11 +7,11 @@ import Header from './Header.jsx';
 import TodoList from './TodoList.jsx';
 import Footer from './Footer.jsx';
 
-import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../common/constants';
+import {ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS} from '../common/constants';
 
 export default React.createClass({
     displayName: 'App',
-    
+
     getInitialState() {
         return {
             todos: [],
@@ -32,15 +32,6 @@ export default React.createClass({
         });
     },
 
-    toggleAll(event) {
-        var checked = event.target.checked;
-        var newTodos = this.state.todos.map(function (todo) {
-            return _.assign({}, todo, {completed: checked});
-        });
-
-        this.setState({ todos: newTodos });
-    },
-
     toggle(todoToToggle) {
         var newTodos = this.state.todos.map(function (todo) {
             return todo !== todoToToggle ?
@@ -48,14 +39,14 @@ export default React.createClass({
                 _.assign({}, todo, {completed: !todo.completed});
         });
 
-        this.setState({ todos: newTodos });
+        this.setState({todos: newTodos});
 
     },
 
     destroy(todo) {
         var newTodos = _.reject(this.state.todos, todo);
 
-        this.setState({ todos: newTodos });
+        this.setState({todos: newTodos});
     },
 
     save(todoToSave, text) {
@@ -69,12 +60,10 @@ export default React.createClass({
     clearCompleted() {
         var newTodos = _.reject(this.state.todos, 'completed');
 
-        this.setState({ todos: newTodos });
+        this.setState({todos: newTodos});
     },
-    
+
     render() {
-        var footer;
-        var main;
         var todos = this.state.todos.filter(function (todo) {
             switch (this.state.nowShowing) {
                 case ACTIVE_TODOS:
@@ -86,33 +75,10 @@ export default React.createClass({
             }
         }, this);
 
-        var activeTodoCount = todos.reduce(function (accum, todo) {
-            return todo.completed ? accum : accum + 1;
-        }, 0);
-
-        var completedCount = todos.length - activeTodoCount;
-
-        if (activeTodoCount || completedCount) {
-            footer =
-                <Footer
-                    count={activeTodoCount}
-                    completedCount={completedCount}
-                    nowShowing={this.state.nowShowing}
-                    setNowShowing={(nowShowing) => this.setState({ nowShowing: nowShowing})}
-                    onClearCompleted={this.clearCompleted}
-                />;
-        }
-
-        if (todos.length) {
-            main = (
+        return (
+            <div>
+                <Header onAdd={this.addItem}/>
                 <section className="main">
-                    <input
-                        className="toggle-all"
-                        type="checkbox"
-                        onChange={this.toggleAll}
-                        checked={activeTodoCount === 0}
-                    />
-                    
                     <TodoList todos={todos}
                               onToggle={this.toggle}
                               onDestroy={this.destroy}
@@ -121,15 +87,14 @@ export default React.createClass({
                               onCancel={this.cancel}
                     />
                 </section>
-            );
-        }
-
-        return (
-            <div>
-                <Header onAdd={this.addItem} />
-                {main}
-                {footer}
+                <Footer
+                    nowShowing={this.state.nowShowing}
+                    setNowShowing={(nowShowing) => this.setState({ nowShowing: nowShowing})}
+                    showClearCompleted={_.any(this.state.todos, 'completed')}
+                    onClearCompleted={this.clearCompleted}
+                />
             </div>
         );
     }
+
 });

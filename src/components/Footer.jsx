@@ -3,26 +3,20 @@ import classNames from 'classnames';
 
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from '../common/constants';
 
-const pluralize = (count, word) => {
-    return count === 1 ? word : word + 's';
-};
-
 export default React.createClass({
     displayName: 'Footer',
     
     propTypes: {
         nowShowing: React.PropTypes.string.isRequired,
         setNowShowing: React.PropTypes.func.isRequired,
-        count: React.PropTypes.number,
-        completedCount: React.PropTypes.number,
+        showClearCompleted: React.PropTypes.bool,
         onClearCompleted: React.PropTypes.func
     },
     
     render() {
-        var activeTodoWord = pluralize(this.props.count, 'item');
         var clearButton = null;
 
-        if (this.props.completedCount > 0) {
+        if (this.props.showClearCompleted) {
             clearButton = (
                 <button
                     className="clear-completed"
@@ -35,9 +29,6 @@ export default React.createClass({
         var nowShowing = this.props.nowShowing;
         return (
             <footer className="footer">
-					<span className="todo-count">
-						<strong>{this.props.count}</strong> {activeTodoWord} left
-					</span>
                 <ul className="filters">
                     <li>
                         <a
